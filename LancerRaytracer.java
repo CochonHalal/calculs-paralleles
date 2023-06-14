@@ -55,23 +55,40 @@ public class LancerRaytracer {
 
         int nbDecoup = Integer.parseInt(args[3]);
         int l = largeur/nbDecoup, h = hauteur/nbDecoup;
+        final int lar = largeur, hau = hauteur;
 
         for(int y = 0; y < hauteur; y = y + h){
             for(int x = 0; x < largeur; x = x + l){
-                InterfaceServiceCalcul serviceCalcul = sR.getNoeudCalcul();
-                try {
-                    if(x + l < largeur && y + h < hauteur) {
-                        Image image = serviceCalcul.calculerPartieScene(scene, x, y, l, h);
-                        disp.setImage(image, x, y);
+                final int currentX = x;
+                final int currentY = y;
+
+                Thread thread = new Thread(() -> {
+                    InterfaceServiceCalcul serviceCalcul = null;
+                    try {
+                        serviceCalcul = sR.getNoeudCalcul();
+                    } catch (RemoteException e) {
+                        System.out.println("1 plus de place : " + e.getMessage());
                     }
-                } catch(RemoteException e){
-                    sR.supprimerNoeudCalcul(serviceCalcul);
-                } catch(ServerNotActiveException e){
-                    System.out.println(e.getMessage());
-                }
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
+                    try {
+                        if (currentX + l <= lar && currentY + h <= hau) {
+                            Image image = serviceCalcul.calculerPartieScene(scene, currentX, currentY, l, h);
+                            disp.setImage(image, currentX, currentY);
+                        }
+                    } catch (RemoteException e) {
+                        try {
+                            sR.supprimerNoeudCalcul(serviceCalcul);
+                            System.out.println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ahah");
+                        } catch (Exception ex) {
+                            System.out.println("Erreur supprimer noeud : " + ex.getMessage());
+                        }
+                    } catch (ServerNotActiveException e) {
+                        System.out.println("2 " + e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("3 " + e.getMessage());
+                    }
+                });
+
+                thread.start();
             }
         }
 
