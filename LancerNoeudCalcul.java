@@ -2,10 +2,8 @@ import serveur.InterfaceServiceRaytracing;
 import serviceCalcul.InterfaceServiceCalcul;
 import serviceCalcul.ServiceCalcul;
 
-import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RemoteServer;
 import java.rmi.server.UnicastRemoteObject;
 
 public class LancerNoeudCalcul {

@@ -4,8 +4,6 @@ import raytracer.Image;
 import raytracer.Scene;
 
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.rmi.RemoteException;
 import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 

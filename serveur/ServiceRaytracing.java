@@ -11,13 +11,21 @@ public class ServiceRaytracing implements InterfaceServiceRaytracing, Serializab
     int numNoeud = 0;
 
     @Override
-    public void supprimerNoeudCalcul(InterfaceServiceCalcul noeud) throws RemoteException {
-        noeudsCalcul.remove(noeud);
+    public void supprimerNoeudCalcul(InterfaceServiceCalcul noeud) {
+        try{
+            noeudsCalcul.remove(noeud);
+        } catch(Exception e){
+            System.out.println("Erreur supprimer noeud dans ServiceRaytracing : " + e.getMessage());
+        }
     }
 
     @Override
-    public void enregistrerNoeudCalcul(InterfaceServiceCalcul noeud) throws RemoteException {
-        noeudsCalcul.add(noeud);
+    public void enregistrerNoeudCalcul(InterfaceServiceCalcul noeud) {
+        try{
+            noeudsCalcul.add(noeud);
+        } catch(Exception e){
+            System.out.println("Erreur ajouter noeud dans ServiceRaytracing : " + e.getMessage());
+        }
     }
 
     @Override

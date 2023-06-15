@@ -1,7 +1,6 @@
 import serveur.InterfaceServiceRaytracing;
 import serveur.ServiceRaytracing;
 
-import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;

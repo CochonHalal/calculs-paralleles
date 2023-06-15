@@ -1,11 +1,8 @@
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
-import java.time.Instant;
-import java.time.Duration;
 
 import raytracer.Disp;
 import raytracer.Scene;
@@ -67,7 +64,7 @@ public class LancerRaytracer {
                     try {
                         serviceCalcul = sR.getNoeudCalcul();
                     } catch (RemoteException e) {
-                        System.out.println("1 plus de place : " + e.getMessage());
+                        System.out.println("surcharge du service central : " + e.getMessage());
                     }
                     try {
                         if (currentX + l <= lar && currentY + h <= hau) {
@@ -77,12 +74,12 @@ public class LancerRaytracer {
                     } catch (RemoteException e) {
                         try {
                             sR.supprimerNoeudCalcul(serviceCalcul);
-                            System.out.println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ahah");
+                            System.out.println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
                         } catch (Exception ex) {
                             System.out.println("Erreur supprimer noeud : " + ex.getMessage());
                         }
                     } catch (ServerNotActiveException e) {
-                        System.out.println("2 " + e.getMessage());
+                        System.out.println("Aucun noeud de calcul actif : " + e.getMessage());
                     } catch (Exception e) {
                         System.out.println("3 " + e.getMessage());
                     }
