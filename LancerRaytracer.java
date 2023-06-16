@@ -77,10 +77,9 @@ public class LancerRaytracer {
                                 Instant fin = Instant.now();
 
                                 long duree = Duration.between(debut, fin).toMillis();
-                                //System.out.println("carré d'image calculée en :"+duree+" ms");
+                                System.out.println("carré d'image calculé en :"+duree+" ms");
 
                                 disp.setImage(image, currentX, currentY);
-                                System.out.println("siu");
                                 fini = true;
                             }
                         } catch (RemoteException e) {
