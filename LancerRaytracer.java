@@ -43,7 +43,7 @@ public class LancerRaytracer {
         Scene scene = new Scene(fichier_description, largeur, hauteur);
 
         //récupérer l'annuaire du SC
-        Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registry = LocateRegistry.getRegistry(args[4], 1099);
         //récupérer la classe du SC
         InterfaceServiceRaytracing sR =(InterfaceServiceRaytracing)registry.lookup("ServiceRaytracing");
 

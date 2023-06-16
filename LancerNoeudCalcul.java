@@ -9,7 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class LancerNoeudCalcul {
     public static void main(String[] args) throws Exception{
         //récupérer l'annuaire du SC
-        Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registry = LocateRegistry.getRegistry(args[0], 1099);
         //récupérer la classe du SC
         InterfaceServiceRaytracing sR =(InterfaceServiceRaytracing)registry.lookup("ServiceRaytracing");
         //créer un service caclul
