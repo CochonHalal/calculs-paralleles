@@ -11,7 +11,7 @@ public class ServiceRaytracing implements InterfaceServiceRaytracing, Serializab
     int numNoeud = 0;
 
     @Override
-    public void supprimerNoeudCalcul(InterfaceServiceCalcul noeud) {
+    public synchronized void supprimerNoeudCalcul(InterfaceServiceCalcul noeud) {
         try{
             noeudsCalcul.remove(noeud);
         } catch(Exception e){

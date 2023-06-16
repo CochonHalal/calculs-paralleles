@@ -3,6 +3,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
+import java.time.Duration;
+import java.time.Instant;
 
 import raytracer.Disp;
 import raytracer.Scene;
@@ -60,28 +62,38 @@ public class LancerRaytracer {
                 final int currentY = y;
 
                 Thread thread = new Thread(() -> {
-                    InterfaceServiceCalcul serviceCalcul = null;
-                    try {
-                        serviceCalcul = sR.getNoeudCalcul();
-                    } catch (RemoteException e) {
-                        System.out.println("surcharge du service central : " + e.getMessage());
-                    }
-                    try {
-                        if (currentX + l <= lar && currentY + h <= hau) {
-                            Image image = serviceCalcul.calculerPartieScene(scene, currentX, currentY, l, h);
-                            disp.setImage(image, currentX, currentY);
-                        }
-                    } catch (RemoteException e) {
+                    boolean fini = false;
+                    while(!fini) {
+                        InterfaceServiceCalcul serviceCalcul = null;
                         try {
-                            sR.supprimerNoeudCalcul(serviceCalcul);
-                            System.out.println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
-                        } catch (Exception ex) {
-                            System.out.println("Erreur supprimer noeud : " + ex.getMessage());
+                            serviceCalcul = sR.getNoeudCalcul();
+                        } catch (RemoteException e) {
+                            System.out.println("surcharge du service central : " + e.getMessage());
                         }
-                    } catch (ServerNotActiveException e) {
-                        System.out.println("Aucun noeud de calcul actif : " + e.getMessage());
-                    } catch (Exception e) {
-                        System.out.println("3 " + e.getMessage());
+                        try {
+                            if (currentX + l <= lar && currentY + h <= hau) {
+                                Instant debut = Instant.now();
+                                Image image = serviceCalcul.calculerPartieScene(scene, currentX, currentY, l, h);
+                                Instant fin = Instant.now();
+
+                                long duree = Duration.between(debut, fin).toMillis();
+                                //System.out.println("carré d'image calculée en :"+duree+" ms");
+
+                                disp.setImage(image, currentX, currentY);
+                                System.out.println("siu");
+                                fini = true;
+                            }
+                        } catch (RemoteException e) {
+                            try {
+                                sR.supprimerNoeudCalcul(serviceCalcul);
+                            } catch (Exception ex) {
+                                System.out.println("Erreur supprimer noeud : " + ex.getMessage());
+                            }
+                        } catch (ServerNotActiveException e) {
+                            System.out.println("Aucun noeud de calcul actif : " + e.getMessage());
+                        } catch (Exception e) {
+                            System.out.println("3 " + e.getMessage());
+                        }
                     }
                 });
 
